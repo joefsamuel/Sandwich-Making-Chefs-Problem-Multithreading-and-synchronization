@@ -1,6 +1,10 @@
-import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Chef class represents chef with one final ingredient to make sandwich along with two ingredients on the table.
+ * @author joefs
+ *
+ */
 public class Chef extends Thread {
 
 	private List<String> table;
@@ -9,6 +13,12 @@ public class Chef extends Thread {
 	private String name;
 	
 	
+	/**
+	 * Constructor
+	 * @param name	Name of the thread
+	 * @param table	the table on to which ingredients will be put/taken to make sandwich
+	 * @param ingredient	the item necessary to form a complete sandwich
+	 */
 	public Chef(String name, List<String> table, String ingredient) {
 		super(name);
 		this.name = name;
@@ -16,12 +26,21 @@ public class Chef extends Thread {
 		this.ingredient = ingredient;
 	}
 	
+	/* 
+	 * Run method override for threads
+	 * @see java.lang.Thread#run()
+	 */
 	public void run() {
 		while(Kitchen.count < 20) {
 			makeSandwich();
 		}
 	}
 	
+	/**
+	 * Makes the sandwich with all ingredients on the table and eats it.
+	 * @param none
+	 * @return none
+	 */
 	public void makeSandwich() {
 		synchronized(this) {
 		for(String foodItem: table) {

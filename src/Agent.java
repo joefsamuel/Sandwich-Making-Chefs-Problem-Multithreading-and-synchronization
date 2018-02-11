@@ -1,5 +1,10 @@
-import java.util.ArrayList;
 import java.util.List;
+
+/**
+ * Agent class to represent an agent that randomly chooses two ingredients to be on the table.
+ * @author joefs
+ *
+ */
 
 public class Agent extends Thread{
 
@@ -13,7 +18,14 @@ public class Agent extends Thread{
 	private final int minimum = 1;
 	private final int maximum = 3;
 	
-	
+	/**
+	 * Constructor
+	 * @param name	Name of the thread
+	 * @param table	the table on to which ingredients will be put/taken to make sandwich
+	 * @param ingredient1	one of the item necessary to form a complete sandwich
+	 * @param ingredient2	one of the item necessary to form a complete sandwich
+	 * @param ingredient3	one of the item necessary to form a complete sandwich
+	 */
 	public Agent(String name, List<String> table, String ingredient1, String ingredient2, String ingredient3) {
 		super(name);
 		this.name = name;
@@ -24,6 +36,10 @@ public class Agent extends Thread{
 		
 	}
 	
+	/* 
+	 * Run method override for threads
+	 * @see java.lang.Thread#run()
+	 */
 	public void run() {
 			while(true) {
 				selectIngredient();
@@ -31,6 +47,11 @@ public class Agent extends Thread{
 			
 	}
 	
+	/**
+	 * Randomly selects 2 ingredients to put on the table.
+	 * @param none
+	 * @return none
+	 */
 	public void selectIngredient() {
 		synchronized(this) {
 			while(table.size() != 0) {
@@ -65,6 +86,12 @@ public class Agent extends Thread{
 		}
 	}	
 	
+	/**
+	 *Randomly chooses a number between a range.
+	 * @param min	Minimum of the range
+	 * @param max 	Maximum of the range
+	 * @return int	random number within this range.
+	 */
 	public int randomSelection(int min, int max) {
 		int range = (max - min) + 1;
 		return (int)(Math.random() * range) + min;
