@@ -10,14 +10,14 @@ public class Agent extends Thread{
 
 	private List<String> table;
 	private String name;
-	
+
 	private String ingredient1;
 	private String ingredient2;
 	private String ingredient3;
-	
+
 	private final int minimum = 1;
 	private final int maximum = 3;
-	
+
 	/**
 	 * Constructor
 	 * @param name	Name of the thread
@@ -33,20 +33,20 @@ public class Agent extends Thread{
 		this.ingredient1 = ingredient1;
 		this.ingredient2 = ingredient2;
 		this.ingredient3 = ingredient3;
-		
+
 	}
-	
+
 	/* 
 	 * Run method override for threads
 	 * @see java.lang.Thread#run()
 	 */
 	public void run() {
-			while(true) {
-				selectIngredient();
-			}
-			
+		while(true) {
+			selectIngredient();
+		}
+
 	}
-	
+
 	/**
 	 * Randomly selects 2 ingredients to put on the table.
 	 * @param none
@@ -55,37 +55,37 @@ public class Agent extends Thread{
 	public void selectIngredient() {
 		synchronized(this) {
 			while(table.size() != 0) {
-			try {
-				System.out.println("Agent has to wait for table to be empty.");
-				wait();
-			}catch(InterruptedException e) {
-				System.err.println("Error in agent thread: ");
-				e.printStackTrace();
-				return;
+				try {
+					System.out.println("Agent has to wait for table to be empty.");
+					wait();
+				}catch(InterruptedException e) {
+					System.err.println("Error in agent thread: ");
+					e.printStackTrace();
+					return;
+				}
 			}
-		}
-		int caseChosen = randomSelection(minimum, maximum);
-		switch(caseChosen) {
+			int caseChosen = randomSelection(minimum, maximum);
+			switch(caseChosen) {
 			case 1: table.add(ingredient1);
-					table.add(ingredient2);
-					break;
-					
+			table.add(ingredient2);
+			break;
+
 			case 2:table.add(ingredient3);
-				   table.add(ingredient1);
-				   break;
-				   
+			table.add(ingredient1);
+			break;
+
 			case 3: table.add(ingredient2);
-			   		table.add(ingredient3);
-			   		break;
-					
+			table.add(ingredient3);
+			break;
+
 			default: System.err.println("Failed"); 
-				break;
-		}
-		System.out.println(name + " has choosen 2 random ingredients: " + table.get(0) + " and " + table.get(1));
-		notifyAll();
+			break;
+			}
+			System.out.println(name + " has choosen 2 random ingredients: " + table.get(0) + " and " + table.get(1));
+			notifyAll();
 		}
 	}	
-	
+
 	/**
 	 *Randomly chooses a number between a range.
 	 * @param min	Minimum of the range

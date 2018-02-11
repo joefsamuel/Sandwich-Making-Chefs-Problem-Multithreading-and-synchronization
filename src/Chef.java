@@ -8,11 +8,11 @@ import java.util.List;
 public class Chef extends Thread {
 
 	private List<String> table;
-	
+
 	private String ingredient;
 	private String name;
-	
-	
+
+
 	/**
 	 * Constructor
 	 * @param name	Name of the thread
@@ -25,7 +25,7 @@ public class Chef extends Thread {
 		this.table = table;
 		this.ingredient = ingredient;
 	}
-	
+
 	/* 
 	 * Run method override for threads
 	 * @see java.lang.Thread#run()
@@ -35,7 +35,7 @@ public class Chef extends Thread {
 			makeSandwich();
 		}
 	}
-	
+
 	/**
 	 * Makes the sandwich with all ingredients on the table and eats it.
 	 * @param none
@@ -43,23 +43,23 @@ public class Chef extends Thread {
 	 */
 	public void makeSandwich() {
 		synchronized(this) {
-		for(String foodItem: table) {
-			while(table.size() == 0 || foodItem.equals(ingredient)) {
-				try {
-					System.out.println("Chef has to wait for ingredients.");
-					wait();
-				} catch (InterruptedException e) {
-					System.err.println("Error in Chef thread:");
-					e.printStackTrace();
-					return;
+			for(String foodItem: table) {
+				while(table.size() == 0 || foodItem.equals(ingredient)) {
+					try {
+						System.out.println("Chef has to wait for ingredients.");
+						wait();
+					} catch (InterruptedException e) {
+						System.err.println("Error in Chef thread:");
+						e.printStackTrace();
+						return;
+					}
 				}
 			}
-		}
-		table.clear();	//Make and eat sandwich
-		Kitchen.count++;
-		System.out.println(name + " had made and ate a sandwich by adding " + ingredient + " to the table.");
-		System.out.println("Total number of sandwiches made: " + Kitchen.count);
-		notifyAll();
+			table.clear();	//Make and eat sandwich
+			Kitchen.count++;
+			System.out.println(name + " had made and ate a sandwich by adding " + ingredient + " to the table.");
+			System.out.println("Total number of sandwiches made: " + Kitchen.count);
+			notifyAll();
 		}
 	}
 
